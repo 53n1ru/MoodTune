@@ -5,15 +5,927 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoodTune</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            cursor: default;
+        }
+
+        /* Animated Gradient Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000, #0a0a0a, #1a1a1a, #0d0d0d, #000000);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            z-index: -2;
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bg-gradient.happy {
+            background: linear-gradient(135deg, #1a0f00, #4a2c00, #6b3d00, #8a4f00, #4a2c00, #1a0f00);
+            animation: gradientShift 15s ease infinite, colorPulse 4s ease infinite;
+        }
+
+        .bg-gradient.sad {
+            background: linear-gradient(135deg, #000a1a, #001a2e, #002845, #003d5c, #002845, #000a1a);
+            animation: gradientShift 18s ease infinite, colorPulse 5s ease infinite;
+        }
+
+        .bg-gradient.stress {
+            background: linear-gradient(135deg, #1a0010, #4a0020, #6b0030, #8a0040, #6b0030, #1a0010);
+            animation: gradientShift 12s ease infinite, colorPulse 3s ease infinite;
+        }
+
+        .bg-gradient.sleepy {
+            background: linear-gradient(135deg, #0a0515, #1a0d3a, #2a1555, #3a1d70, #2a1555, #0a0515);
+            animation: gradientShift 22s ease infinite, colorPulse 6s ease infinite;
+        }
+
+        .bg-gradient.study {
+            background: linear-gradient(135deg, #001a15, #003a2a, #005540, #007055, #005540, #001a15);
+            animation: gradientShift 16s ease infinite, colorPulse 4.5s ease infinite;
+        }
+
+        .bg-gradient.energy {
+            background: linear-gradient(135deg, #1a0000, #4a0000, #6b0000, #8a0000, #6b0000, #1a0000);
+            animation: gradientShift 10s ease infinite, colorPulse 2.5s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes colorPulse {
+            0%, 100% { filter: brightness(1) saturate(1); }
+            50% { filter: brightness(1.2) saturate(1.3); }
+        }
+
+        /* Animated Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float 20s infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: all 1s ease;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translateY(-50vh) translateX(25px) scale(1.5); opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px) scale(0.5); opacity: 0; }
+        }
+
+        /* Floating Orbs */
+        .orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: floatOrb 25s infinite ease-in-out;
+            transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.4;
+        }
+
+        .orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #667eea, transparent);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb:nth-child(2) {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #764ba2, transparent);
+            top: 40%;
+            right: -100px;
+            animation-delay: -8s;
+        }
+
+        .orb:nth-child(3) {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, #f093fb, transparent);
+            bottom: -150px;
+            left: 30%;
+            animation-delay: -16s;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(100px, -100px) scale(1.2); }
+            50% { transform: translate(-50px, 100px) scale(0.8); }
+            75% { transform: translate(150px, 50px) scale(1.1); }
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: rippleEffect 1s ease-out;
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: clamp(36px, 8vw, 64px);
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            margin-bottom: 10px;
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.4));
+            animation: glow 3s ease-in-out infinite alternate, gradientMove 5s ease infinite;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.4)); }
+            to { filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.8)); }
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        h1.happy {
+            background: linear-gradient(135deg, #ffd93d 0%, #ff9a56 25%, #ffb347 50%, #ffd93d 75%, #ff9a56 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: glow 2s ease-in-out infinite alternate, gradientMove 4s ease infinite;
+        }
+
+        h1.sad {
+            background: linear-gradient(135deg, #6bcfff 0%, #2a5298 25%, #1e3c72 50%, #6bcfff 75%, #2a5298 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: glow 4s ease-in-out infinite alternate, gradientMove 6s ease infinite;
+        }
+
+        h1.stress {
+            background: linear-gradient(135deg, #ff6b9d 0%, #f8b500 25%, #c44569 50%, #ff6b9d 75%, #f8b500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: glow 1.5s ease-in-out infinite alternate, gradientMove 3s ease infinite;
+        }
+
+        h1.sleepy {
+            background: linear-gradient(135deg, #a29bfe 0%, #5f27cd 25%, #2d1b69 50%, #a29bfe 75%, #5f27cd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: glow 5s ease-in-out infinite alternate, gradientMove 7s ease infinite;
+        }
+
+        h1.study {
+            background: linear-gradient(135deg, #55efc4 0%, #00d2d3 25%, #0be881 50%, #55efc4 75%, #00d2d3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: glow 3.5s ease-in-out infinite alternate, gradientMove 5s ease infinite;
+        }
+
+        h1.energy {
+            background: linear-gradient(135deg, #ff7675 0%, #fd79a8 25%, #ff3838 50%, #ff7675 75%, #fd79a8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: glow 1s ease-in-out infinite alternate, gradientMove 2s ease infinite;
+        }
+
+        .subtitle {
+            font-size: clamp(16px, 3vw, 20px);
+            color: #e0e0e0;
+            font-weight: 400;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            animation: fadeGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeGlow {
+            0%, 100% { text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3); }
+            50% { text-shadow: 0 4px 20px rgba(255, 255, 255, 0.6); }
+        }
+
+        .subtitle.happy { 
+            color: #ffd93d; 
+            animation: fadeGlow 2s ease-in-out infinite;
+        }
+        .subtitle.sad { 
+            color: #6bcfff; 
+            animation: fadeGlow 4s ease-in-out infinite;
+        }
+        .subtitle.stress { 
+            color: #ff6b9d; 
+            animation: fadeGlow 1.5s ease-in-out infinite;
+        }
+        .subtitle.sleepy { 
+            color: #a29bfe; 
+            animation: fadeGlow 5s ease-in-out infinite;
+        }
+        .subtitle.study { 
+            color: #55efc4; 
+            animation: fadeGlow 3s ease-in-out infinite;
+        }
+        .subtitle.energy { 
+            color: #ff7675; 
+            animation: fadeGlow 1s ease-in-out infinite;
+        }
+
+        .mood-container {
+            width: 100%;
+            max-width: 600px;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mood-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .mood-btn {
+            padding: 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: clamp(14px, 2.5vw, 16px);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            animation: buttonFloat 4s ease-in-out infinite;
+        }
+
+        .mood-btn:nth-child(1) { animation-delay: 0s; }
+        .mood-btn:nth-child(2) { animation-delay: 0.2s; }
+        .mood-btn:nth-child(3) { animation-delay: 0.4s; }
+        .mood-btn:nth-child(4) { animation-delay: 0.6s; }
+        .mood-btn:nth-child(5) { animation-delay: 0.8s; }
+        .mood-btn:nth-child(6) { animation-delay: 1s; }
+
+        @keyframes buttonFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .mood-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+            transform: translate(-50%, -50%);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mood-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .mood-btn:hover::after {
+            left: 100%;
+        }
+
+        .mood-btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .mood-btn:hover {
+            transform: translateY(-8px) scale(1.08);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            animation: none;
+        }
+
+        .mood-btn.happy { 
+            border-color: #ffd93d;
+            box-shadow: 0 0 20px rgba(255, 217, 61, 0.2);
+        }
+        .mood-btn.happy:hover { 
+            background: rgba(255, 217, 61, 0.3); 
+            box-shadow: 0 15px 40px rgba(255, 217, 61, 0.6);
+            border-color: #ffd93d;
+        }
+        
+        .mood-btn.sad { 
+            border-color: #6bcfff;
+            box-shadow: 0 0 20px rgba(107, 207, 255, 0.2);
+        }
+        .mood-btn.sad:hover { 
+            background: rgba(107, 207, 255, 0.3); 
+            box-shadow: 0 15px 40px rgba(107, 207, 255, 0.6);
+            border-color: #6bcfff;
+        }
+        
+        .mood-btn.stress { 
+            border-color: #ff6b9d;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.2);
+        }
+        .mood-btn.stress:hover { 
+            background: rgba(255, 107, 157, 0.3); 
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
+            border-color: #ff6b9d;
+        }
+        
+        .mood-btn.sleepy { 
+            border-color: #a29bfe;
+            box-shadow: 0 0 20px rgba(162, 155, 254, 0.2);
+        }
+        .mood-btn.sleepy:hover { 
+            background: rgba(162, 155, 254, 0.3); 
+            box-shadow: 0 15px 40px rgba(162, 155, 254, 0.6);
+            border-color: #a29bfe;
+        }
+        
+        .mood-btn.study { 
+            border-color: #55efc4;
+            box-shadow: 0 0 20px rgba(85, 239, 196, 0.2);
+        }
+        .mood-btn.study:hover { 
+            background: rgba(85, 239, 196, 0.3); 
+            box-shadow: 0 15px 40px rgba(85, 239, 196, 0.6);
+            border-color: #55efc4;
+        }
+        
+        .mood-btn.energy { 
+            border-color: #ff7675;
+            box-shadow: 0 0 20px rgba(255, 118, 117, 0.2);
+        }
+        .mood-btn.energy:hover { 
+            background: rgba(255, 118, 117, 0.3); 
+            box-shadow: 0 15px 40px rgba(255, 118, 117, 0.6);
+            border-color: #ff7675;
+        }
+
+        .mood-icon {
+            width: clamp(32px, 6vw, 40px);
+            height: clamp(32px, 6vw, 40px);
+            margin: 0 auto 12px;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .mood-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 2;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 0 8px currentColor);
+            animation: iconPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .mood-btn:hover .mood-icon svg {
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 0 15px currentColor);
+            animation: none;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .loading.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .loading p {
+            color: #ffffff;
+            font-weight: 500;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            animation: textPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-top: 5px solid #667eea;
+            border-right: 5px solid #764ba2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite, spinGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spinGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(118, 75, 162, 0.8); }
+        }
+
+        /* Result Section */
+        #result {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #result.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .result-content {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 35px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease;
+            animation: resultFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes resultFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .result-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .mood-title {
+            font-size: clamp(26px, 5vw, 36px);
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            font-weight: 700;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+            animation: gradientMove 5s ease infinite;
+        }
+
+        .quote {
+            font-style: italic;
+            color: #e0e0e0;
+            margin-bottom: 25px;
+            font-size: clamp(14px, 2.5vw, 16px);
+            padding: 18px;
+            border-left: 4px solid #667eea;
+            background: rgba(102, 126, 234, 0.15);
+            border-radius: 12px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            font-weight: 400;
+            transition: all 0.3s ease;
+            animation: quoteGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes quoteGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(102, 126, 234, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+        }
+
+        .quote:hover {
+            transform: translateX(5px);
+            border-left-color: #f093fb;
+            background: rgba(102, 126, 234, 0.25);
+        }
+
+        .songs-title {
+            font-size: clamp(18px, 3vw, 24px);
+            margin-bottom: 15px;
+            color: #ffffff;
+            font-weight: 600;
+            text-shadow: 0 2px 15px rgba(255, 255, 255, 0.5);
+            animation: titleShine 3s ease-in-out infinite;
+        }
+
+        @keyframes titleShine {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        .song-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .song-item {
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            font-size: clamp(13px, 2vw, 15px);
+            color: #ffffff;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .song-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .song-item:hover::before {
+            left: 100%;
+        }
+
+        .song-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            border-left-color: #f093fb;
+        }
+
+        .song-item:active {
+            transform: translateX(10px) scale(0.98);
+        }
+
+        /* Music Player */
+        .music-player {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease;
+            animation: playerFloat 7s ease-in-out infinite;
+        }
+
+        @keyframes playerFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .music-player:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .now-playing {
+            font-size: clamp(11px, 2vw, 13px);
+            color: #b0b0b0;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            animation: nowPlayingPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes nowPlayingPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .current-song {
+            font-size: clamp(17px, 3vw, 22px);
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: #ffffff;
+            text-shadow: 0 3px 15px rgba(255, 255, 255, 0.5);
+            animation: songTitleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes songTitleGlow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            width: clamp(45px, 10vw, 55px);
+            height: clamp(45px, 10vw, 55px);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease;
+        }
+
+        .control-btn:hover::before {
+            width: 200%;
+            height: 200%;
+        }
+
+        .control-btn svg {
+            width: 50%;
+            height: 50%;
+            stroke: white;
+            stroke-width: 2;
+            fill: none;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn.play {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: clamp(55px, 12vw, 70px);
+            height: clamp(55px, 12vw, 70px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+            animation: playButtonPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes playButtonPulse {
+            0%, 100% { box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6); }
+            50% { box-shadow: 0 8px 40px rgba(118, 75, 162, 0.8); }
+        }
+
+        .control-btn.play:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+            transform: scale(1.2);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.8);
+        }
+
+        .control-btn.play svg {
+            width: 60%;
+            height: 60%;
+            fill: white;
+            stroke: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .progress-bar:hover {
+            height: 10px;
+            box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 200% 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            animation: progress 3s ease-in-out infinite, progressGlow 2s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+        }
+
+        @keyframes progress {
+            0%, 100% { width: 0%; }
+            50% { width: 100%; }
+        }
+
+        @keyframes progressGlow {
+            0%, 100% { 
+                box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+                background-position: 0% 50%;
+            }
+            50% { 
+                box-shadow: 0 0 25px rgba(118, 75, 162, 0.9);
+                background-position: 100% 50%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .mood-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .result-content, .music-player {
+                padding: 20px;
+            }
+        }
+
+        /* Cursor Trail Effect */
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.8), transparent);
+            pointer-events: none;
+            z-index: 9999;
+            animation: trailFade 1s ease-out forwards;
+        }
+
+        @keyframes trailFade {
+            0% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% { 
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="bg-gradient"></div>
     <div class="particles" id="particles"></div>
+    <div class="orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
 
     <div class="container">
         <div class="header">
-            <h1>MoodTune <svg class="logo-svg" viewBox="0 0 24 24">
+            <h1>MoodTune <svg style="display:inline-block; width:52px; height:52px; vertical-align:middle; margin-left:8px;" viewBox="0 0 24 24" fill="none" stroke="url(#grad1)" stroke-width="2">
                 <defs>
                     <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
@@ -30,22 +942,60 @@
         <div class="mood-container">
             <div class="mood-buttons">
                 <div class="mood-btn happy" onclick="selectMood('Happy')">
-                    <div class="mood-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd93d"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>Happy
+                    <div class="mood-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffd93d">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                    </div>
+                    Happy
                 </div>
                 <div class="mood-btn sad" onclick="selectMood('Sad')">
-                    <div class="mood-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#6bcfff"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>Sad
+                    <div class="mood-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#6bcfff">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M16 16s-1.5-2-4-2-4 2-4 2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                    </div>
+                    Sad
                 </div>
                 <div class="mood-btn stress" onclick="selectMood('Stress')">
-                    <div class="mood-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff6b9d"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>Stress
+                    <div class="mood-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ff6b9d">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    Stress
                 </div>
                 <div class="mood-btn sleepy" onclick="selectMood('Sleepy')">
-                    <div class="mood-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#a29bfe"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>Sleepy
+                    <div class="mood-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#a29bfe">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </div>
+                    Sleepy
                 </div>
                 <div class="mood-btn study" onclick="selectMood('Study')">
-                    <div class="mood-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#55efc4"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>Study
+                    <div class="mood-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#55efc4">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        </svg>
+                    </div>
+                    Study
                 </div>
                 <div class="mood-btn energy" onclick="selectMood('Energy')">
-                    <div class="mood-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff7675"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>Energy
+                    <div class="mood-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ff7675">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                    </div>
+                    Energy
                 </div>
             </div>
 
@@ -58,6 +1008,233 @@
         </div>
     </div>
 
-    <script src="./index.js"></script>
+    <script>
+        // Create floating particles with color transitions
+        const particlesContainer = document.getElementById('particles');
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            particlesContainer.appendChild(particle);
+            particles.push(particle);
+        }
+
+        // Cursor trail effect
+        let lastTrailTime = 0;
+        document.addEventListener('mousemove', (e) => {
+            const currentTime = Date.now();
+            if (currentTime - lastTrailTime > 30) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                document.body.appendChild(trail);
+                lastTrailTime = currentTime;
+                
+                setTimeout(() => trail.remove(), 1000);
+            }
+        });
+
+        // Ripple effect on click
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 1000);
+        });
+
+        const musicData = {
+            "Happy": {
+                songs: ["Good Vibes - Ayokay", "Happy - Pharrell Williams", "Sunroof - Nicky Youre", "Walking On Sunshine - Katrina", "Don't Stop Me Now - Queen"],
+                quote: "Choose to be optimistic, it feels better. - Dalai Lama",
+                particleColor: "rgba(255, 217, 61, 0.8)"
+            },
+            "Sad": {
+                songs: ["Arcade - Duncan Laurence", "Lovely - Billie Eilish", "Let Her Go - Passenger", "Someone Like You - Adele", "The Night We Met - Lord Huron"],
+                quote: "Tears are words the heart can't express. - Unknown",
+                particleColor: "rgba(107, 207, 255, 0.8)"
+            },
+            "Stress": {
+                songs: ["Weightless - Marconi Union", "Night Owl - Galimatias", "Calm - Nils Frahm", "Breathe Me - Sia", "Tranquil - Ludovico Einaudi"],
+                quote: "Sometimes the most productive thing you can do is relax. - Mark Black",
+                particleColor: "rgba(255, 107, 157, 0.8)"
+            },
+            "Sleepy": {
+                songs: ["Lofi Sleep Mix", "Soft Piano Rain", "Deep Relaxation", "River Flows In You - Yiruma", "Moonlight Sonata - Beethoven"],
+                quote: "Sleep is the best meditation. - Dalai Lama",
+                particleColor: "rgba(162, 155, 254, 0.8)"
+            },
+            "Study": {
+                songs: ["Lofi Beats", "Focus - Hans Zimmer", "Coding Mix - Chillhop", "Classical Study Music", "Peaceful Piano"],
+                quote: "The expert in anything was once a beginner. - Helen Hayes",
+                particleColor: "rgba(85, 239, 196, 0.8)"
+            },
+            "Energy": {
+                songs: ["Power - Kanye West", "Believer - Imagine Dragons", "Animals - Martin Garrix", "Eye of the Tiger - Survivor", "Thunder - Imagine Dragons"],
+                quote: "Energy and persistence conquer all things. - Benjamin Franklin",
+                particleColor: "rgba(255, 118, 117, 0.8)"
+            }
+        };
+
+        let currentSongIndex = 0;
+        let currentMood = '';
+        let isPlaying = false;
+
+        function selectMood(mood) {
+            currentMood = mood;
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const bgGradient = document.querySelector('.bg-gradient');
+            const title = document.querySelector('h1');
+            const subtitle = document.querySelector('.subtitle');
+            const orbs = document.querySelectorAll('.orb');
+            
+            // Change particle colors
+            const data = musicData[mood];
+            particles.forEach(particle => {
+                particle.style.background = data.particleColor;
+                particle.style.boxShadow = `0 0 10px ${data.particleColor}`;
+            });
+            
+            // Animate orbs
+            orbs.forEach((orb, index) => {
+                setTimeout(() => {
+                    orb.style.transform = 'scale(1.5)';
+                    setTimeout(() => {
+                        orb.style.transform = 'scale(1)';
+                    }, 500);
+                }, index * 200);
+            });
+            
+            // Change background theme with delay
+            setTimeout(() => {
+                bgGradient.className = 'bg-gradient ' + mood.toLowerCase();
+            }, 300);
+            
+            // Change header theme with delay
+            setTimeout(() => {
+                title.className = mood.toLowerCase();
+                subtitle.className = 'subtitle ' + mood.toLowerCase();
+            }, 600);
+            
+            result.classList.remove('show');
+            loading.classList.add('active');
+
+            setTimeout(() => {
+                loading.classList.remove('active');
+                displayResults(mood);
+            }, 2000);
+        }
+
+        function displayResults(mood) {
+            const data = musicData[mood];
+            const result = document.getElementById('result');
+            currentSongIndex = 0;
+            
+            result.innerHTML = `
+                <div class="result-content">
+                    <h3 class="mood-title">Your Mood: ${mood}</h3>
+                    <div class="quote">"${data.quote}"</div>
+                    <h4 class="songs-title">🎵 Recommended Songs</h4>
+                    <ul class="song-list">
+                        ${data.songs.map((song, index) => 
+                            `<li class="song-item" onclick="playSong(${index})">${song}</li>`
+                        ).join('')}
+                    </ul>
+                </div>
+                <div class="music-player">
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="current-song" id="currentSong">${data.songs[0]}</div>
+                    <div class="player-controls">
+                        <button class="control-btn" onclick="prevSong()">
+                            <svg viewBox="0 0 24 24">
+                                <polygon points="19 20 9 12 19 4 19 20"/>
+                                <line x1="5" y1="19" x2="5" y2="5"/>
+                            </svg>
+                        </button>
+                        <button class="control-btn play" onclick="togglePlay()" id="playBtn">
+                            <svg viewBox="0 0 24 24" id="playIcon">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                        </button>
+                        <button class="control-btn" onclick="nextSong()">
+                            <svg viewBox="0 0 24 24">
+                                <polygon points="5 4 15 12 5 20 5 4"/>
+                                <line x1="19" y1="5" x2="19" y2="19"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                result.classList.add('show');
+            }, 100);
+        }
+
+        function playSong(index) {
+            currentSongIndex = index;
+            const data = musicData[currentMood];
+            const songElement = document.getElementById('currentSong');
+            
+            // Animate song change
+            songElement.style.transform = 'scale(0.9)';
+            songElement.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                songElement.textContent = data.songs[index];
+                songElement.style.transform = 'scale(1)';
+                songElement.style.opacity = '1';
+            }, 200);
+            
+            isPlaying = true;
+            const playBtn = document.getElementById('playIcon');
+            playBtn.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+            playBtn.setAttribute('fill', 'white');
+            playBtn.setAttribute('stroke', 'none');
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            const playBtn = document.getElementById('playIcon');
+            const btn = document.getElementById('playBtn');
+            
+            btn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+            }, 100);
+            
+            if (isPlaying) {
+                playBtn.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+                playBtn.setAttribute('fill', 'white');
+                playBtn.setAttribute('stroke', 'none');
+            } else {
+                playBtn.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+                playBtn.setAttribute('fill', 'white');
+                playBtn.setAttribute('stroke', 'none');
+            }
+        }
+
+        function nextSong() {
+            const data = musicData[currentMood];
+            currentSongIndex = (currentSongIndex + 1) % data.songs.length;
+            playSong(currentSongIndex);
+        }
+
+        function prevSong() {
+            const data = musicData[currentMood];
+            currentSongIndex = (currentSongIndex - 1 + data.songs.length) % data.songs.length;
+            playSong(currentSongIndex);
+        }
+    </script>
 </body>
 </html>

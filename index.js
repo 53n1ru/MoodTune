@@ -43,13 +43,52 @@ let currentMood = '';
 let isPlaying = false;
 
 const moodColors = {
-    "Happy": { bg: ['#d5b60a', '#ffed29'], text: '#ffd93d', particle: '#fff8dc', playerPrimary: '#ffd93d', playerSecondary: '#ffb347' },
+    "Happy": { bg: ['#d5b60a', '#ffed29'], text: '#ffd93d', particle: '#fff8dc', playerPrimary: '#ffd93d', playerSecondary: '#ffb347', h1:'#ffd93d'},
     "Sad": { bg: ['#0e1e40', '#1b3763'], text: '#6bcfff', particle: '#b3e5fc', playerPrimary: '#6bcfff', playerSecondary: '#2a5298' },
     "Stress": { bg: ['#3e1f2f', '#5a1f45'], text: '#ff6b9d', particle: '#ffcce0', playerPrimary: '#ff6b9d', playerSecondary: '#f8b500' },
     "Sleepy": { bg: ['#1c1242', '#38277c'], text: '#a29bfe', particle: '#dcd6f7', playerPrimary: '#a29bfe', playerSecondary: '#5f27cd' },
     "Study": { bg: ['#0b3f30', '#177f67'], text: '#55efc4', particle: '#b8f8e6', playerPrimary: '#55efc4', playerSecondary: '#00d2d3' },
     "Energy": { bg: ['#400a0a', '#7f1f1f'], text: '#ff7675', particle: '#ffcccc', playerPrimary: '#ff7675', playerSecondary: '#fd79a8' }
 };
+const themes = {
+    happy: {
+        background: "linear-gradient(135deg, #f7d46a, #e9a837)",
+        textColor: "#fff8e7",
+        particleColor: "#ffe08a",
+        headerColor: "#ffe8a1"
+    },
+    sad: {
+        background: "linear-gradient(135deg, #1e3c72, #2a5298)",
+        textColor: "#dce4f0",
+        particleColor: "#8bb0ff",
+        headerColor: "#a3c0ff"
+    },
+    stress: {
+        background: "linear-gradient(135deg, #380036, #0cbaba)",
+        textColor: "#e8fefe",
+        particleColor: "#63f7e3",
+        headerColor: "#8efbf0"
+    },
+    sleepy: {
+        background: "linear-gradient(135deg, #0d1b2a, #1b263b, #415a77)",
+        textColor: "#f0f6ff",
+        particleColor: "#a8c5ff",
+        headerColor: "#d6e4ff"
+    },
+    study: {
+        background: "linear-gradient(135deg, #232526, #414345)",
+        textColor: "#ffffff",
+        particleColor: "#9ca7b0",
+        headerColor: "#e0e0e0"
+    },
+    energy: {
+        background: "linear-gradient(135deg, #ff512f, #dd2476)",
+        textColor: "#fff4f4",
+        particleColor: "#ff8ca1",
+        headerColor: "#ffd2dc"
+    }
+};
+
 
 // Select a mood
 function selectMood(mood) {
@@ -57,12 +96,25 @@ function selectMood(mood) {
     const loading = document.getElementById('loading');
     const result = document.getElementById('result');
     const bgGradient = document.querySelector('.bg-gradient');
-    const header = document.querySelector('h1');
+    const title = document.querySelector('h1');
+    const subtitle = document.querySelector('.subtitle');
+    
     
     const colors = moodColors[mood];
 
-    // Change background
-    bgGradient.style.background = `linear-gradient(45deg, ${colors.bg[0]}, ${colors.bg[1]})`;
+     // Change background theme
+     bgGradient.className = 'bg-gradient ' + mood.toLowerCase();
+      // Change header theme
+      title.className = mood.toLowerCase();
+      subtitle.className = 'subtitle ' + mood.toLowerCase();
+      
+      result.classList.remove('show');
+      loading.classList.add('active');
+
+      setTimeout(() => {
+          loading.classList.remove('active');
+          displayResults(mood);
+      }, 1500);
     
     // Update header/logo and subtitle colors
     header.style.color = colors.text;
