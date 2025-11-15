@@ -21,7 +21,6 @@
             cursor: default;
         }
 
-        /* Animated Gradient Background */
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -75,7 +74,6 @@
             50% { filter: brightness(1.2) saturate(1.3); }
         }
 
-        /* Animated Particles */
         .particles {
             position: fixed;
             top: 0;
@@ -105,7 +103,6 @@
             100% { transform: translateY(-100vh) translateX(50px) scale(0.5); opacity: 0; }
         }
 
-        /* Floating Orbs */
         .orbs {
             position: fixed;
             top: 0;
@@ -160,7 +157,6 @@
             75% { transform: translate(150px, 50px) scale(1.1); }
         }
 
-        /* Ripple Effect */
         .ripple {
             position: absolute;
             border-radius: 50%;
@@ -303,30 +299,12 @@
             50% { text-shadow: 0 4px 20px rgba(255, 255, 255, 0.6); }
         }
 
-        .subtitle.happy { 
-            color: #ffd93d; 
-            animation: fadeGlow 2s ease-in-out infinite;
-        }
-        .subtitle.sad { 
-            color: #6bcfff; 
-            animation: fadeGlow 4s ease-in-out infinite;
-        }
-        .subtitle.stress { 
-            color: #ff6b9d; 
-            animation: fadeGlow 1.5s ease-in-out infinite;
-        }
-        .subtitle.sleepy { 
-            color: #a29bfe; 
-            animation: fadeGlow 5s ease-in-out infinite;
-        }
-        .subtitle.study { 
-            color: #55efc4; 
-            animation: fadeGlow 3s ease-in-out infinite;
-        }
-        .subtitle.energy { 
-            color: #ff7675; 
-            animation: fadeGlow 1s ease-in-out infinite;
-        }
+        .subtitle.happy { color: #ffd93d; animation: fadeGlow 2s ease-in-out infinite; }
+        .subtitle.sad { color: #6bcfff; animation: fadeGlow 4s ease-in-out infinite; }
+        .subtitle.stress { color: #ff6b9d; animation: fadeGlow 1.5s ease-in-out infinite; }
+        .subtitle.sleepy { color: #a29bfe; animation: fadeGlow 5s ease-in-out infinite; }
+        .subtitle.study { color: #55efc4; animation: fadeGlow 3s ease-in-out infinite; }
+        .subtitle.energy { color: #ff7675; animation: fadeGlow 1s ease-in-out infinite; }
 
         .mood-container {
             width: 100%;
@@ -509,7 +487,6 @@
             animation: none;
         }
 
-        /* Loading Animation */
         .loading {
             display: none;
             text-align: center;
@@ -559,7 +536,6 @@
             50% { box-shadow: 0 0 40px rgba(118, 75, 162, 0.8); }
         }
 
-        /* Result Section */
         #result {
             opacity: 0;
             transform: translateY(30px) scale(0.95);
@@ -604,6 +580,49 @@
             font-weight: 700;
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
             animation: gradientMove 5s ease infinite;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mood-title.happy {
+            background: linear-gradient(135deg, #ffd93d 0%, #ff9a56 25%, #ffb347 50%, #ffd93d 75%, #ff9a56 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mood-title.sad {
+            background: linear-gradient(135deg, #6bcfff 0%, #2a5298 25%, #1e3c72 50%, #6bcfff 75%, #2a5298 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mood-title.stress {
+            background: linear-gradient(135deg, #ff6b9d 0%, #f8b500 25%, #c44569 50%, #ff6b9d 75%, #f8b500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mood-title.sleepy {
+            background: linear-gradient(135deg, #a29bfe 0%, #5f27cd 25%, #2d1b69 50%, #a29bfe 75%, #5f27cd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mood-title.study {
+            background: linear-gradient(135deg, #55efc4 0%, #00d2d3 25%, #0be881 50%, #55efc4 75%, #00d2d3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mood-title.energy {
+            background: linear-gradient(135deg, #ff7675 0%, #fd79a8 25%, #ff3838 50%, #ff7675 75%, #fd79a8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .quote {
@@ -667,6 +686,13 @@
             overflow: hidden;
         }
 
+        .song-item.happy { border-left-color: #ffd93d; }
+        .song-item.sad { border-left-color: #6bcfff; }
+        .song-item.stress { border-left-color: #ff6b9d; }
+        .song-item.sleepy { border-left-color: #a29bfe; }
+        .song-item.study { border-left-color: #55efc4; }
+        .song-item.energy { border-left-color: #ff7675; }
+
         .song-item::before {
             content: '';
             position: absolute;
@@ -693,7 +719,6 @@
             transform: translateX(10px) scale(0.98);
         }
 
-        /* Music Player */
         .music-player {
             background: rgba(255, 255, 255, 0.08);
             border: 2px solid rgba(255, 255, 255, 0.2);
@@ -714,6 +739,62 @@
         .music-player:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .album-cover {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: coverFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes coverFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.02); }
+        }
+
+        .album-cover:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .album-cover.playing {
+            animation: coverFloat 4s ease-in-out infinite, coverSpin 20s linear infinite;
+        }
+
+        @keyframes coverSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cover-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.4), rgba(118, 75, 162, 0.4));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        .album-cover:hover .cover-overlay {
+            opacity: 1;
         }
 
         .now-playing {
@@ -814,6 +895,37 @@
             height: clamp(55px, 12vw, 70px);
             box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
             animation: playButtonPulse 2s ease-in-out infinite;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .control-btn.play.happy {
+            background: linear-gradient(135deg, #ffd93d 0%, #ff9a56 100%);
+            box-shadow: 0 8px 30px rgba(255, 217, 61, 0.6);
+        }
+
+        .control-btn.play.sad {
+            background: linear-gradient(135deg, #6bcfff 0%, #2a5298 100%);
+            box-shadow: 0 8px 30px rgba(107, 207, 255, 0.6);
+        }
+
+        .control-btn.play.stress {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
+        }
+
+        .control-btn.play.sleepy {
+            background: linear-gradient(135deg, #a29bfe 0%, #5f27cd 100%);
+            box-shadow: 0 8px 30px rgba(162, 155, 254, 0.6);
+        }
+
+        .control-btn.play.study {
+            background: linear-gradient(135deg, #55efc4 0%, #00d2d3 100%);
+            box-shadow: 0 8px 30px rgba(85, 239, 196, 0.6);
+        }
+
+        .control-btn.play.energy {
+            background: linear-gradient(135deg, #ff7675 0%, #fd79a8 100%);
+            box-shadow: 0 8px 30px rgba(255, 118, 117, 0.6);
         }
 
         @keyframes playButtonPulse {
@@ -890,7 +1002,6 @@
             }
         }
 
-        /* Cursor Trail Effect */
         .cursor-trail {
             position: fixed;
             width: 8px;
@@ -1009,7 +1120,6 @@
     </div>
 
     <script>
-        // Create floating particles with color transitions
         const particlesContainer = document.getElementById('particles');
         const particles = [];
         for (let i = 0; i < 50; i++) {
@@ -1022,7 +1132,6 @@
             particles.push(particle);
         }
 
-        // Cursor trail effect
         let lastTrailTime = 0;
         document.addEventListener('mousemove', (e) => {
             const currentTime = Date.now();
@@ -1038,7 +1147,6 @@
             }
         });
 
-        // Ripple effect on click
         document.addEventListener('click', (e) => {
             const ripple = document.createElement('div');
             ripple.className = 'ripple';
@@ -1053,32 +1161,74 @@
             "Happy": {
                 songs: ["Good Vibes - Ayokay", "Happy - Pharrell Williams", "Sunroof - Nicky Youre", "Walking On Sunshine - Katrina", "Don't Stop Me Now - Queen"],
                 quote: "Choose to be optimistic, it feels better. - Dalai Lama",
-                particleColor: "rgba(255, 217, 61, 0.8)"
+                particleColor: "rgba(255, 217, 61, 0.8)",
+                covers: [
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffd93d'/%3E%3Cstop offset='100%25' style='stop-color:%23ff9a56'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E😊%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffb347'/%3E%3Cstop offset='100%25' style='stop-color:%23ffd93d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🎉%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff9a56'/%3E%3Cstop offset='100%25' style='stop-color:%23ffb347'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E☀️%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffd93d'/%3E%3Cstop offset='100%25' style='stop-color:%23ff9a56'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🌟%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffb347'/%3E%3Cstop offset='100%25' style='stop-color:%23ffd93d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🎵%3C/text%3E%3C/svg%3E"
+                ]
             },
             "Sad": {
                 songs: ["Arcade - Duncan Laurence", "Lovely - Billie Eilish", "Let Her Go - Passenger", "Someone Like You - Adele", "The Night We Met - Lord Huron"],
                 quote: "Tears are words the heart can't express. - Unknown",
-                particleColor: "rgba(107, 207, 255, 0.8)"
+                particleColor: "rgba(107, 207, 255, 0.8)",
+                covers: [
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%236bcfff'/%3E%3Cstop offset='100%25' style='stop-color:%232a5298'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E😢%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232a5298'/%3E%3Cstop offset='100%25' style='stop-color:%231e3c72'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E💙%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231e3c72'/%3E%3Cstop offset='100%25' style='stop-color:%236bcfff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🌧️%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%236bcfff'/%3E%3Cstop offset='100%25' style='stop-color:%232a5298'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E💔%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232a5298'/%3E%3Cstop offset='100%25' style='stop-color:%236bcfff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🌙%3C/text%3E%3C/svg%3E"
+                ]
             },
             "Stress": {
                 songs: ["Weightless - Marconi Union", "Night Owl - Galimatias", "Calm - Nils Frahm", "Breathe Me - Sia", "Tranquil - Ludovico Einaudi"],
                 quote: "Sometimes the most productive thing you can do is relax. - Mark Black",
-                particleColor: "rgba(255, 107, 157, 0.8)"
+                particleColor: "rgba(255, 107, 157, 0.8)",
+                covers: [
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b9d'/%3E%3Cstop offset='100%25' style='stop-color:%23c44569'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E😌%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23c44569'/%3E%3Cstop offset='100%25' style='stop-color:%23f8b500'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🧘%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f8b500'/%3E%3Cstop offset='100%25' style='stop-color:%23ff6b9d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🕉️%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b9d'/%3E%3Cstop offset='100%25' style='stop-color:%23c44569'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🌸%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23c44569'/%3E%3Cstop offset='100%25' style='stop-color:%23ff6b9d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E☮️%3C/text%3E%3C/svg%3E"
+                ]
             },
             "Sleepy": {
                 songs: ["Lofi Sleep Mix", "Soft Piano Rain", "Deep Relaxation", "River Flows In You - Yiruma", "Moonlight Sonata - Beethoven"],
                 quote: "Sleep is the best meditation. - Dalai Lama",
-                particleColor: "rgba(162, 155, 254, 0.8)"
+                particleColor: "rgba(162, 155, 254, 0.8)",
+                covers: [
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23a29bfe'/%3E%3Cstop offset='100%25' style='stop-color:%235f27cd'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E😴%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%235f27cd'/%3E%3Cstop offset='100%25' style='stop-color:%232d1b69'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🌙%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232d1b69'/%3E%3Cstop offset='100%25' style='stop-color:%23a29bfe'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E✨%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23a29bfe'/%3E%3Cstop offset='100%25' style='stop-color:%235f27cd'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E💤%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%235f27cd'/%3E%3Cstop offset='100%25' style='stop-color:%23a29bfe'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🌟%3C/text%3E%3C/svg%3E"
+                ]
             },
             "Study": {
                 songs: ["Lofi Beats", "Focus - Hans Zimmer", "Coding Mix - Chillhop", "Classical Study Music", "Peaceful Piano"],
                 quote: "The expert in anything was once a beginner. - Helen Hayes",
-                particleColor: "rgba(85, 239, 196, 0.8)"
+                particleColor: "rgba(85, 239, 196, 0.8)",
+                covers: [
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2355efc4'/%3E%3Cstop offset='100%25' style='stop-color:%2300d2d3'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E📚%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300d2d3'/%3E%3Cstop offset='100%25' style='stop-color:%230be881'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🎯%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%230be881'/%3E%3Cstop offset='100%25' style='stop-color:%2355efc4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E💡%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2355efc4'/%3E%3Cstop offset='100%25' style='stop-color:%2300d2d3'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E✍️%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300d2d3'/%3E%3Cstop offset='100%25' style='stop-color:%2355efc4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🎓%3C/text%3E%3C/svg%3E"
+                ]
             },
             "Energy": {
                 songs: ["Power - Kanye West", "Believer - Imagine Dragons", "Animals - Martin Garrix", "Eye of the Tiger - Survivor", "Thunder - Imagine Dragons"],
                 quote: "Energy and persistence conquer all things. - Benjamin Franklin",
-                particleColor: "rgba(255, 118, 117, 0.8)"
+                particleColor: "rgba(255, 118, 117, 0.8)",
+                covers: [
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff7675'/%3E%3Cstop offset='100%25' style='stop-color:%23fd79a8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E⚡%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23fd79a8'/%3E%3Cstop offset='100%25' style='stop-color:%23ff3838'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🔥%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff3838'/%3E%3Cstop offset='100%25' style='stop-color:%23ff7675'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E💪%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff7675'/%3E%3Cstop offset='100%25' style='stop-color:%23fd79a8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🚀%3C/text%3E%3C/svg%3E",
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23fd79a8'/%3E%3Cstop offset='100%25' style='stop-color:%23ff7675'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E⭐%3C/text%3E%3C/svg%3E"
+                ]
             }
         };
 
@@ -1095,14 +1245,12 @@
             const subtitle = document.querySelector('.subtitle');
             const orbs = document.querySelectorAll('.orb');
             
-            // Change particle colors
             const data = musicData[mood];
             particles.forEach(particle => {
                 particle.style.background = data.particleColor;
                 particle.style.boxShadow = `0 0 10px ${data.particleColor}`;
             });
             
-            // Animate orbs
             orbs.forEach((orb, index) => {
                 setTimeout(() => {
                     orb.style.transform = 'scale(1.5)';
@@ -1112,12 +1260,10 @@
                 }, index * 200);
             });
             
-            // Change background theme with delay
             setTimeout(() => {
                 bgGradient.className = 'bg-gradient ' + mood.toLowerCase();
             }, 300);
             
-            // Change header theme with delay
             setTimeout(() => {
                 title.className = mood.toLowerCase();
                 subtitle.className = 'subtitle ' + mood.toLowerCase();
@@ -1136,19 +1282,24 @@
             const data = musicData[mood];
             const result = document.getElementById('result');
             currentSongIndex = 0;
+            const moodClass = mood.toLowerCase();
             
             result.innerHTML = `
                 <div class="result-content">
-                    <h3 class="mood-title">Your Mood: ${mood}</h3>
+                    <h3 class="mood-title ${moodClass}">Your Mood: ${mood}</h3>
                     <div class="quote">"${data.quote}"</div>
                     <h4 class="songs-title">🎵 Recommended Songs</h4>
                     <ul class="song-list">
                         ${data.songs.map((song, index) => 
-                            `<li class="song-item" onclick="playSong(${index})">${song}</li>`
+                            `<li class="song-item ${moodClass}" onclick="playSong(${index})">${song}</li>`
                         ).join('')}
                     </ul>
                 </div>
                 <div class="music-player">
+                    <div class="album-cover" id="albumCover">
+                        <img src="${data.covers[0]}" alt="Album Cover">
+                        <div class="cover-overlay">🎵</div>
+                    </div>
                     <div class="now-playing">NOW PLAYING</div>
                     <div class="current-song" id="currentSong">${data.songs[0]}</div>
                     <div class="player-controls">
@@ -1158,7 +1309,7 @@
                                 <line x1="5" y1="19" x2="5" y2="5"/>
                             </svg>
                         </button>
-                        <button class="control-btn play" onclick="togglePlay()" id="playBtn">
+                        <button class="control-btn play ${moodClass}" onclick="togglePlay()" id="playBtn">
                             <svg viewBox="0 0 24 24" id="playIcon">
                                 <polygon points="5 3 19 12 5 21 5 3"/>
                             </svg>
@@ -1185,15 +1336,24 @@
             currentSongIndex = index;
             const data = musicData[currentMood];
             const songElement = document.getElementById('currentSong');
+            const albumCover = document.getElementById('albumCover');
+            const coverImg = albumCover.querySelector('img');
             
-            // Animate song change
             songElement.style.transform = 'scale(0.9)';
             songElement.style.opacity = '0.5';
+            
+            albumCover.style.transform = 'scale(0.9)';
+            albumCover.style.opacity = '0.5';
             
             setTimeout(() => {
                 songElement.textContent = data.songs[index];
                 songElement.style.transform = 'scale(1)';
                 songElement.style.opacity = '1';
+                
+                coverImg.src = data.covers[index];
+                albumCover.style.transform = 'scale(1)';
+                albumCover.style.opacity = '1';
+                albumCover.classList.add('playing');
             }, 200);
             
             isPlaying = true;
@@ -1207,6 +1367,7 @@
             isPlaying = !isPlaying;
             const playBtn = document.getElementById('playIcon');
             const btn = document.getElementById('playBtn');
+            const albumCover = document.getElementById('albumCover');
             
             btn.style.transform = 'scale(0.9)';
             setTimeout(() => {
@@ -1217,10 +1378,12 @@
                 playBtn.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
                 playBtn.setAttribute('fill', 'white');
                 playBtn.setAttribute('stroke', 'none');
+                albumCover.classList.add('playing');
             } else {
                 playBtn.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
                 playBtn.setAttribute('fill', 'white');
                 playBtn.setAttribute('stroke', 'none');
+                albumCover.classList.remove('playing');
             }
         }
 
