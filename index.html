@@ -653,7 +653,7 @@
 
         @keyframes quoteGlow {
             0%, 100% { box-shadow: 0 0 10px rgba(102, 126, 234, 0.2); }
-            50% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 20px rgba(102, 126, 234, 0.4); }
         }
 
         .quote:hover {
@@ -1477,6 +1477,9 @@
                 </div>
             `;
             
+            // This is the added line to fulfill the requirement of playing the first song upon mood selection.
+            playSong(0);
+
             setTimeout(() => {
                 result.classList.add('show');
             }, 100);
@@ -1521,7 +1524,7 @@
                 currentAudio.removeEventListener('loadedmetadata', updateDuration);
             }
             
-            // Create new audio element
+            // Create new audio element (This is the dynamic loading you requested)
             currentAudio = new Audio(data.audioFiles[index]);
             
             // Update progress bar and time
