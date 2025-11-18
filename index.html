@@ -1042,66 +1042,56 @@
                 opacity: 0;
             }
         }
- /* Reduce animations on mobile for speed */
-@media (max-width: 768px) {
+        
+        /* --- MOBILE OPTIMIZATION: Remove all animations for smooth loading --- */
+        @media (max-width: 768px) {
 
-/* Remove heavy background animations */
-.bg-gradient {
-    animation: none !important;
-}
+            /* Stop all heavy CSS animations and transformations */
+            .bg-gradient, .bg-gradient.happy, .bg-gradient.sad, .bg-gradient.stress, .bg-gradient.sleepy, .bg-gradient.study, .bg-gradient.energy {
+                animation: none !important;
+                background-size: 100% 100%; /* Stop background size animation */
+            }
 
-/* Disable floating particles */
-.particle {
-    display: none !important;
-    animation: none !important;
-}
+            .orb {
+                animation: none !important;
+                opacity: 0.15 !important;
+                filter: blur(30px); /* Reduce blur for performance */
+            }
 
-/* Disable orbs animation */
-.orb {
-    animation: none !important;
-    opacity: 0.15 !important;
-}
+            .particle, .cursor-trail, .ripple {
+                display: none !important;
+                animation: none !important;
+            }
 
-/* Disable cursor trails */
-.cursor-trail {
-    display: none !important;
-    animation: none !important;
-}
+            /* Stop all element-level animations */
+            h1, h1.happy, h1.sad, h1.stress, h1.sleepy, h1.study, h1.energy, 
+            .subtitle, .subtitle.happy, .subtitle.sad, .subtitle.stress, .subtitle.sleepy, .subtitle.study, .subtitle.energy,
+            .mood-container, .mood-btn, .mood-icon svg,
+            .loading.active, .loading p, .spinner, 
+            .result-content, .quote, .songs-title, .music-player, 
+            .now-playing, .current-song, .control-btn.play {
+                animation: none !important;
+                transform: none !important;
+                filter: none !important;
+                box-shadow: none !important;
+            }
+            
+            /* Remove transform from hover effects */
+            .mood-btn:hover {
+                transform: none !important;
+                box-shadow: none !important;
+            }
 
-/* Stop button floating animation */
-.mood-btn {
-    animation: none !important;
-    transform: none !important;
-}
-
-/* Remove heading/subtitle animations */
-h1, .subtitle {
-    animation: none !important;
-    transform: none !important;
-}
-
-/* Disable quote glow */
-.quote {
-    animation: none !important;
-}
-
-/* Disable music player float */
-.music-player {
-    animation: none !important;
-    transform: none !important;
-}
-
-/* Stop icon pulse */
-.mood-icon svg {
-    animation: none !important;
-}
-
-/* Disable ripple effect */
-.ripple {
-    display: none !important;
-    animation: none !important;
-}
-}
+            /* Simplfy transition for quicker feel */
+            .mood-btn {
+                transition: background 0.2s ease, border-color 0.2s ease;
+            }
+            
+            /* Keep basic box shadows for design on static elements */
+            .result-content, .music-player {
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+        }
 
 
     </style>
@@ -1193,41 +1183,8 @@ h1, .subtitle {
     <script>
         const particlesContainer = document.getElementById('particles');
         const particles = [];
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-            particlesContainer.appendChild(particle);
-            particles.push(particle);
-        }
-
         let lastTrailTime = 0;
-        document.addEventListener('mousemove', (e) => {
-            const currentTime = Date.now();
-            if (currentTime - lastTrailTime > 30) {
-                const trail = document.createElement('div');
-                trail.className = 'cursor-trail';
-                trail.style.left = e.clientX + 'px';
-                trail.style.top = e.clientY + 'px';
-                document.body.appendChild(trail);
-                lastTrailTime = currentTime;
-                
-                setTimeout(() => trail.remove(), 1000);
-            }
-        });
-
-        document.addEventListener('click', (e) => {
-            const ripple = document.createElement('div');
-            ripple.className = 'ripple';
-            ripple.style.left = e.clientX + 'px';
-            ripple.style.top = e.clientY + 'px';
-            document.body.appendChild(ripple);
-            
-            setTimeout(() => ripple.remove(), 1000);
-        });
-
+        
         const musicData = {
             "Happy": {
                 songs: [
@@ -1350,48 +1307,49 @@ h1, .subtitle {
                 ]
             }
         };
-        // Detect mobile device
-const isMobile = window.innerWidth <= 768;
+        
+        // Detect mobile device (same breakpoint as CSS media query)
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-// Only load heavy JS on desktop
-if (!isMobile) {
-    // Particle generator (desktop only)
-    for (let i = 0; i < 50; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 20 + 's';
-        particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-        particlesContainer.appendChild(particle);
-        particles.push(particle);
-    }
+        // Only initialize heavy effects on desktop
+        if (!isMobile) {
+            // Particle generator (desktop only)
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particlesContainer.appendChild(particle);
+                particles.push(particle);
+            }
 
-    // Cursor trail (desktop only)
-    document.addEventListener('mousemove', (e) => {
-        const currentTime = Date.now();
-        if (currentTime - lastTrailTime > 30) {
-            const trail = document.createElement('div');
-            trail.className = 'cursor-trail';
-            trail.style.left = e.clientX + 'px';
-            trail.style.top = e.clientY + 'px';
-            document.body.appendChild(trail);
-            lastTrailTime = currentTime;
+            // Cursor trail (desktop only)
+            document.addEventListener('mousemove', (e) => {
+                const currentTime = Date.now();
+                if (currentTime - lastTrailTime > 30) {
+                    const trail = document.createElement('div');
+                    trail.className = 'cursor-trail';
+                    trail.style.left = e.clientX + 'px';
+                    trail.style.top = e.clientY + 'px';
+                    document.body.appendChild(trail);
+                    lastTrailTime = currentTime;
 
-            setTimeout(() => trail.remove(), 1000);
+                    setTimeout(() => trail.remove(), 1000);
+                }
+            });
+
+            // Ripple effect on click (desktop only)
+            document.addEventListener('click', (e) => {
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                ripple.style.left = e.clientX + 'px';
+                ripple.style.top = e.clientY + 'px';
+                document.body.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 1000);
+            });
         }
-    });
-
-    // Ripple effect on click (desktop)
-    document.addEventListener('click', (e) => {
-        const ripple = document.createElement('div');
-        ripple.className = 'ripple';
-        ripple.style.left = e.clientX + 'px';
-        ripple.style.top = e.clientY + 'px';
-        document.body.appendChild(ripple);
-
-        setTimeout(() => ripple.remove(), 1000);
-    });
-}
 
 
         let currentSongIndex = 0;
@@ -1406,8 +1364,27 @@ if (!isMobile) {
             const bgGradient = document.querySelector('.bg-gradient');
             const title = document.querySelector('h1');
             const subtitle = document.querySelector('.subtitle');
-            const orbs = document.querySelectorAll('.orb');
             
+            // Optimization for mobile: Skip particle/orb animations
+            if (!isMobile) {
+                const data = musicData[mood];
+                const orbs = document.querySelectorAll('.orb');
+                
+                particles.forEach(particle => {
+                    particle.style.background = data.particleColor;
+                    particle.style.boxShadow = `0 0 10px ${data.particleColor}`;
+                });
+                
+                orbs.forEach((orb, index) => {
+                    setTimeout(() => {
+                        orb.style.transform = 'scale(1.5)';
+                        setTimeout(() => {
+                            orb.style.transform = 'scale(1)';
+                        }, 500);
+                    }, index * 200);
+                });
+            }
+
             // Stop current audio if playing
             if (currentAudio) {
                 currentAudio.pause();
@@ -1415,37 +1392,26 @@ if (!isMobile) {
                 isPlaying = false;
             }
             
-            const data = musicData[mood];
-            particles.forEach(particle => {
-                particle.style.background = data.particleColor;
-                particle.style.boxShadow = `0 0 10px ${data.particleColor}`;
-            });
-            
-            orbs.forEach((orb, index) => {
-                setTimeout(() => {
-                    orb.style.transform = 'scale(1.5)';
-                    setTimeout(() => {
-                        orb.style.transform = 'scale(1)';
-                    }, 500);
-                }, index * 200);
-            });
-            
+            // Smooth background and title changes
             setTimeout(() => {
                 bgGradient.className = 'bg-gradient ' + mood.toLowerCase();
-            }, 300);
+            }, isMobile ? 0 : 300);
             
             setTimeout(() => {
                 title.className = mood.toLowerCase();
                 subtitle.className = 'subtitle ' + mood.toLowerCase();
-            }, 600);
+            }, isMobile ? 0 : 600);
             
             result.classList.remove('show');
             loading.classList.add('active');
 
+            // Reduce loading delay on mobile for faster response
+            const loadingTime = isMobile ? 1000 : 2000;
+
             setTimeout(() => {
                 loading.classList.remove('active');
                 displayResults(mood);
-            }, 2000);
+            }, loadingTime);
         }
 
         function displayResults(mood) {
@@ -1533,13 +1499,15 @@ if (!isMobile) {
                 }, 100);
             }
             
+            // Animation for song change
             songElement.style.transform = 'scale(0.9)';
             songElement.style.opacity = '0.5';
             albumCover.style.opacity = '0.5';
             
             setTimeout(() => {
                 songElement.textContent = data.songs[index];
-                songElement.style.transform = 'scale(1)';
+                // Remove transform on mobile for smooth experience
+                songElement.style.transform = isMobile ? 'none' : 'scale(1)'; 
                 songElement.style.opacity = '1';
                 
                 coverImg.src = data.covers[index];
@@ -1623,10 +1591,13 @@ if (!isMobile) {
             const playBtn = document.getElementById('playIcon');
             const btn = document.getElementById('playBtn');
             
-            btn.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                btn.style.transform = 'scale(1)';
-            }, 100);
+            // Remove animation/transform on mobile
+            if (!isMobile) {
+                btn.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    btn.style.transform = 'scale(1)';
+                }, 100);
+            }
             
             if (isPlaying) {
                 currentAudio.play();
