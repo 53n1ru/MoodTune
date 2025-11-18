@@ -547,6 +547,17 @@
             transform: translateY(0) scale(1);
         }
 
+        #musicPlayerSection {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #musicPlayerSection.show {
+            display: block;
+        }
+
         .result-content {
             background: rgba(255, 255, 255, 0.08);
             border: 2px solid rgba(255, 255, 255, 0.2);
@@ -750,51 +761,12 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
             position: relative;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: coverFloat 4s ease-in-out infinite;
-        }
-
-        @keyframes coverFloat {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-5px) scale(1.02); }
-        }
-
-        .album-cover:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
-        }
-
-        .album-cover.playing {
-            animation: coverFloat 4s ease-in-out infinite, coverSpin 20s linear infinite;
-        }
-
-        @keyframes coverSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         .album-cover img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-
-        .cover-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.4), rgba(118, 75, 162, 0.4));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-        }
-
-        .album-cover:hover .cover-overlay {
-            opacity: 1;
         }
 
         .now-playing {
@@ -934,9 +906,32 @@
         }
 
         .control-btn.play:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
             transform: scale(1.2);
             box-shadow: 0 10px 40px rgba(102, 126, 234, 0.8);
+        }
+
+        .control-btn.play.happy:hover {
+            box-shadow: 0 10px 40px rgba(255, 217, 61, 0.8);
+        }
+
+        .control-btn.play.sad:hover {
+            box-shadow: 0 10px 40px rgba(107, 207, 255, 0.8);
+        }
+
+        .control-btn.play.stress:hover {
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.8);
+        }
+
+        .control-btn.play.sleepy:hover {
+            box-shadow: 0 10px 40px rgba(162, 155, 254, 0.8);
+        }
+
+        .control-btn.play.study:hover {
+            box-shadow: 0 10px 40px rgba(85, 239, 196, 0.8);
+        }
+
+        .control-btn.play.energy:hover {
+            box-shadow: 0 10px 40px rgba(255, 118, 117, 0.8);
         }
 
         .control-btn.play svg {
@@ -967,25 +962,49 @@
             background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             background-size: 200% 100%;
             width: 0%;
-            transition: width 0.3s ease;
-            animation: progress 3s ease-in-out infinite, progressGlow 2s ease-in-out infinite;
+            transition: width 0.1s linear;
             box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+            pointer-events: none;
         }
 
-        @keyframes progress {
-            0%, 100% { width: 0%; }
-            50% { width: 100%; }
+        .progress.happy {
+            background: linear-gradient(90deg, #ffd93d 0%, #ff9a56 50%, #ffb347 100%);
+            box-shadow: 0 0 15px rgba(255, 217, 61, 0.6);
         }
 
-        @keyframes progressGlow {
-            0%, 100% { 
-                box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
-                background-position: 0% 50%;
-            }
-            50% { 
-                box-shadow: 0 0 25px rgba(118, 75, 162, 0.9);
-                background-position: 100% 50%;
-            }
+        .progress.sad {
+            background: linear-gradient(90deg, #6bcfff 0%, #2a5298 50%, #1e3c72 100%);
+            box-shadow: 0 0 15px rgba(107, 207, 255, 0.6);
+        }
+
+        .progress.stress {
+            background: linear-gradient(90deg, #ff6b9d 0%, #c44569 50%, #f8b500 100%);
+            box-shadow: 0 0 15px rgba(255, 107, 157, 0.6);
+        }
+
+        .progress.sleepy {
+            background: linear-gradient(90deg, #a29bfe 0%, #5f27cd 50%, #2d1b69 100%);
+            box-shadow: 0 0 15px rgba(162, 155, 254, 0.6);
+        }
+
+        .progress.study {
+            background: linear-gradient(90deg, #55efc4 0%, #00d2d3 50%, #0be881 100%);
+            box-shadow: 0 0 15px rgba(85, 239, 196, 0.6);
+        }
+
+        .progress.energy {
+            background: linear-gradient(90deg, #ff7675 0%, #fd79a8 50%, #ff3838 100%);
+            box-shadow: 0 0 15px rgba(255, 118, 117, 0.6);
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: clamp(11px, 2vw, 13px);
+            color: #b0b0b0;
+            margin-top: 8px;
+            font-weight: 500;
         }
 
         @media (max-width: 600px) {
@@ -1036,17 +1055,7 @@
 
     <div class="container">
         <div class="header">
-            <h1>MoodTune <svg style="display:inline-block; width:52px; height:52px; vertical-align:middle; margin-left:8px;" viewBox="0 0 24 24" fill="none" stroke="url(#grad1)" stroke-width="2">
-                <defs>
-                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <path d="M9 18V5l12-2v13"/>
-                <circle cx="6" cy="18" r="3"/>
-                <circle cx="18" cy="16" r="3"/>
-            </svg></h1>
+            <h1>MoodTune</h1>
             <p class="subtitle">Let your mood set the vibe</p>
         </div>
 
@@ -1159,15 +1168,28 @@
 
         const musicData = {
             "Happy": {
-                songs: ["Good Vibes - Ayokay", "Happy - Pharrell Williams", "Sunroof - Nicky Youre", "Walking On Sunshine - Katrina", "Don't Stop Me Now - Queen"],
+                songs: [
+                    "Blinding Lights - The Weeknd",
+                    "Shape of You - Ed Sheeran",
+                    "One Dance - Drake feat. Wizkid & Kyla",
+                    "Uptown Funk - Mark Ronson ft. Bruno Mars",
+                    "Despacito - Luis Fonsi ft. Daddy Yankee"
+                ],
                 quote: "Choose to be optimistic, it feels better. - Dalai Lama",
                 particleColor: "rgba(255, 217, 61, 0.8)",
                 covers: [
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffd93d'/%3E%3Cstop offset='100%25' style='stop-color:%23ff9a56'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E😊%3C/text%3E%3C/svg%3E",
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffb347'/%3E%3Cstop offset='100%25' style='stop-color:%23ffd93d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🎉%3C/text%3E%3C/svg%3E",
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff9a56'/%3E%3Cstop offset='100%25' style='stop-color:%23ffb347'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E☀️%3C/text%3E%3C/svg%3E",
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffd93d'/%3E%3Cstop offset='100%25' style='stop-color:%23ff9a56'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🌟%3C/text%3E%3C/svg%3E",
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffb347'/%3E%3Cstop offset='100%25' style='stop-color:%23ffd93d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🎵%3C/text%3E%3C/svg%3E"
+                    "./Images/happy1.jpg",
+                    "./Images/happy2.jpg",
+                    "./Images/happy3.jpg",
+                    "./Images/happy4.jpg",
+                    "./Images/happy5.jpg"
+                ],
+                audioFiles: [
+                    "./Music/Happy/blinding-lights.mp3",
+                    "./Music/Happy/shape-of-you.mp3",
+                    "./Music/Happy/one-dance.mp3",
+                    "./Music/Happy/uptown-funk.mp3",
+                    "./Music/Happy/despacito.mp3"
                 ]
             },
             "Sad": {
@@ -1183,15 +1205,22 @@
                 ]
             },
             "Stress": {
-                songs: ["Weightless - Marconi Union", "Night Owl - Galimatias", "Calm - Nils Frahm", "Breathe Me - Sia", "Tranquil - Ludovico Einaudi"],
+                songs: ["Anxiety - Doechii", "under the influence - Chris Brown", "Another Love - Tom Odell", "Everything I Wanted - Billie Eilish", "Heat Waves - Glass Animals"],
                 quote: "Sometimes the most productive thing you can do is relax. - Mark Black",
                 particleColor: "rgba(255, 107, 157, 0.8)",
                 covers: [
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b9d'/%3E%3Cstop offset='100%25' style='stop-color:%23c44569'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E😌%3C/text%3E%3C/svg%3E",
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23c44569'/%3E%3Cstop offset='100%25' style='stop-color:%23f8b500'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🧘%3C/text%3E%3C/svg%3E",
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f8b500'/%3E%3Cstop offset='100%25' style='stop-color:%23ff6b9d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🕉️%3C/text%3E%3C/svg%3E",
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b9d'/%3E%3Cstop offset='100%25' style='stop-color:%23c44569'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🌸%3C/text%3E%3C/svg%3E",
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23c44569'/%3E%3Cstop offset='100%25' style='stop-color:%23ff6b9d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g1)'/%3E%3Ctext x='100' y='100' font-family='Arial' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle'%3E☮️%3C/text%3E%3C/svg%3E"
+                    "./Images/stress1.jpg",
+                    "./Images/stress2.jpg",
+                    "./Images/stress3.jpg",
+                    "./Images/stress4.jpg",
+                    "./Images/stress5.jpg"
+                ],
+                audioFiles: [
+                    "./Music/Happy/blinding-lights.mp3",
+                    "./Music/Happy/shape-of-you.mp3",
+                    "./Music/Happy/one-dance.mp3",
+                    "./Music/Happy/uptown-funk.mp3",
+                    "./Music/Happy/despacito.mp3"
                 ]
             },
             "Sleepy": {
@@ -1235,6 +1264,7 @@
         let currentSongIndex = 0;
         let currentMood = '';
         let isPlaying = false;
+        let currentAudio = null;
 
         function selectMood(mood) {
             currentMood = mood;
@@ -1244,6 +1274,13 @@
             const title = document.querySelector('h1');
             const subtitle = document.querySelector('.subtitle');
             const orbs = document.querySelectorAll('.orb');
+            
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                isPlaying = false;
+            }
             
             const data = musicData[mood];
             particles.forEach(particle => {
@@ -1295,10 +1332,20 @@
                         ).join('')}
                     </ul>
                 </div>
+            `;
+            
+            // Create music player section separately (hidden initially)
+            let playerSection = document.getElementById('musicPlayerSection');
+            if (!playerSection) {
+                playerSection = document.createElement('div');
+                playerSection.id = 'musicPlayerSection';
+                result.appendChild(playerSection);
+            }
+            
+            playerSection.innerHTML = `
                 <div class="music-player">
                     <div class="album-cover" id="albumCover">
                         <img src="${data.covers[0]}" alt="Album Cover">
-                        <div class="cover-overlay">🎵</div>
                     </div>
                     <div class="now-playing">NOW PLAYING</div>
                     <div class="current-song" id="currentSong">${data.songs[0]}</div>
@@ -1321,8 +1368,12 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress" id="progress"></div>
+                    <div class="progress-bar" onclick="seekAudio(event)">
+                        <div class="progress ${moodClass}" id="progress"></div>
+                    </div>
+                    <div class="time-display">
+                        <span id="currentTime">0:00</span>
+                        <span id="duration">0:00</span>
                     </div>
                 </div>
             `;
@@ -1338,11 +1389,19 @@
             const songElement = document.getElementById('currentSong');
             const albumCover = document.getElementById('albumCover');
             const coverImg = albumCover.querySelector('img');
+            const playerSection = document.getElementById('musicPlayerSection');
+            
+            // Show player section when first song is clicked
+            if (!playerSection.classList.contains('show')) {
+                playerSection.classList.add('show');
+                setTimeout(() => {
+                    playerSection.style.opacity = '1';
+                    playerSection.style.transform = 'translateY(0)';
+                }, 100);
+            }
             
             songElement.style.transform = 'scale(0.9)';
             songElement.style.opacity = '0.5';
-            
-            albumCover.style.transform = 'scale(0.9)';
             albumCover.style.opacity = '0.5';
             
             setTimeout(() => {
@@ -1351,10 +1410,32 @@
                 songElement.style.opacity = '1';
                 
                 coverImg.src = data.covers[index];
-                albumCover.style.transform = 'scale(1)';
                 albumCover.style.opacity = '1';
-                albumCover.classList.add('playing');
             }, 200);
+            
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.removeEventListener('timeupdate', updateProgress);
+                currentAudio.removeEventListener('loadedmetadata', updateDuration);
+            }
+            
+            // Create new audio element
+            currentAudio = new Audio(data.audioFiles[index]);
+            
+            // Update progress bar and time
+            currentAudio.addEventListener('timeupdate', updateProgress);
+            currentAudio.addEventListener('loadedmetadata', updateDuration);
+            
+            // Auto play next song when current ends
+            currentAudio.addEventListener('ended', () => {
+                nextSong();
+            });
+            
+            // Play the audio
+            currentAudio.play().catch(error => {
+                console.log('Audio playback failed:', error);
+            });
             
             isPlaying = true;
             const playBtn = document.getElementById('playIcon');
@@ -1363,11 +1444,51 @@
             playBtn.setAttribute('stroke', 'none');
         }
 
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateProgress() {
+            if (currentAudio) {
+                const progressBar = document.getElementById('progress');
+                const currentTimeElement = document.getElementById('currentTime');
+                const percentage = (currentAudio.currentTime / currentAudio.duration) * 100;
+                progressBar.style.width = percentage + '%';
+                currentTimeElement.textContent = formatTime(currentAudio.currentTime);
+            }
+        }
+
+        function updateDuration() {
+            if (currentAudio) {
+                const durationElement = document.getElementById('duration');
+                durationElement.textContent = formatTime(currentAudio.duration);
+            }
+        }
+
+        function seekAudio(event) {
+            if (!currentAudio) return;
+            
+            const progressBar = event.currentTarget;
+            const rect = progressBar.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const percentage = clickX / rect.width;
+            const newTime = percentage * currentAudio.duration;
+            
+            currentAudio.currentTime = newTime;
+        }
+
         function togglePlay() {
+            if (!currentAudio) {
+                // If no audio is loaded, play the first song
+                playSong(0);
+                return;
+            }
+            
             isPlaying = !isPlaying;
             const playBtn = document.getElementById('playIcon');
             const btn = document.getElementById('playBtn');
-            const albumCover = document.getElementById('albumCover');
             
             btn.style.transform = 'scale(0.9)';
             setTimeout(() => {
@@ -1375,15 +1496,15 @@
             }, 100);
             
             if (isPlaying) {
+                currentAudio.play();
                 playBtn.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
                 playBtn.setAttribute('fill', 'white');
                 playBtn.setAttribute('stroke', 'none');
-                albumCover.classList.add('playing');
             } else {
+                currentAudio.pause();
                 playBtn.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
                 playBtn.setAttribute('fill', 'white');
                 playBtn.setAttribute('stroke', 'none');
-                albumCover.classList.remove('playing');
             }
         }
 
