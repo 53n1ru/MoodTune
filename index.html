@@ -1350,6 +1350,49 @@ h1, .subtitle {
                 ]
             }
         };
+        // Detect mobile device
+const isMobile = window.innerWidth <= 768;
+
+// Only load heavy JS on desktop
+if (!isMobile) {
+    // Particle generator (desktop only)
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+        particlesContainer.appendChild(particle);
+        particles.push(particle);
+    }
+
+    // Cursor trail (desktop only)
+    document.addEventListener('mousemove', (e) => {
+        const currentTime = Date.now();
+        if (currentTime - lastTrailTime > 30) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            document.body.appendChild(trail);
+            lastTrailTime = currentTime;
+
+            setTimeout(() => trail.remove(), 1000);
+        }
+    });
+
+    // Ripple effect on click (desktop)
+    document.addEventListener('click', (e) => {
+        const ripple = document.createElement('div');
+        ripple.className = 'ripple';
+        ripple.style.left = e.clientX + 'px';
+        ripple.style.top = e.clientY + 'px';
+        document.body.appendChild(ripple);
+
+        setTimeout(() => ripple.remove(), 1000);
+    });
+}
+
 
         let currentSongIndex = 0;
         let currentMood = '';
