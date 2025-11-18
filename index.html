@@ -1043,7 +1043,7 @@
             }
         }
         
-        /* --- MOBILE OPTIMIZATION: Remove all animations for smooth loading and fast updates --- */
+        /* --- MOBILE OPTIMIZATION: Remove all animations for smooth loading --- */
         @media (max-width: 768px) {
 
             /* Stop all heavy CSS animations and transformations */
@@ -1063,7 +1063,7 @@
                 animation: none !important;
             }
 
-            /* Stop all element-level animations and transitions */
+            /* Stop all element-level animations */
             h1, h1.happy, h1.sad, h1.stress, h1.sleepy, h1.study, h1.energy, 
             .subtitle, .subtitle.happy, .subtitle.sad, .subtitle.stress, .subtitle.sleepy, .subtitle.study, .subtitle.energy,
             .mood-container, .mood-btn, .mood-icon svg,
@@ -1075,34 +1075,25 @@
                 filter: none !important;
                 box-shadow: none !important;
             }
-
-            /* Reset transitions for a snappier feel */
-            .bg-gradient, h1, .subtitle, .mood-btn, .song-item, .music-player, #result, #musicPlayerSection {
-                transition: all 0.2s ease !important;
-            }
             
-            /* Remove transform from hover effects and active states */
-            .mood-btn:hover, .result-content:hover, .music-player:hover, .song-item:hover, .song-item:active, .control-btn:hover {
+            /* Remove transform from hover effects */
+            .mood-btn:hover {
                 transform: none !important;
                 box-shadow: none !important;
             }
-            
-            /* Ensure initial state of result is instant on mobile */
-            #result, #musicPlayerSection {
-                transform: none !important;
+
+            /* Simplfy transition for quicker feel */
+            .mood-btn {
+                transition: background 0.2s ease, border-color 0.2s ease;
             }
             
             /* Keep basic box shadows for design on static elements */
             .result-content, .music-player {
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
-            }
-
-            /* FIX FOR IMAGE UPDATE LAG: Remove transitions and heavy shadows on album cover */
-            .album-cover {
-                transition: none !important; 
-                box-shadow: none !important; 
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             }
         }
+
+
     </style>
 </head>
 <body>
@@ -1173,288 +1164,434 @@
                 <div class="mood-btn energy" onclick="selectMood('Energy')">
                     <div class="mood-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#ff7675">
-                            <path d="M13 2L3 14h9l-1 8 11-12h-9l1-8z"/>
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
                         </svg>
                     </div>
                     Energy
                 </div>
             </div>
-        </div>
 
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Tuning your vibe...</p>
-        </div>
-
-        <div id="result">
-            <div class="result-content">
-                <h2 class="mood-title" id="moodTitle"></h2>
-                <blockquote class="quote" id="quoteText"></blockquote>
-                <p class="songs-title">Recommended Vibe Tracks:</p>
-                <ul class="song-list" id="songList">
-                    </ul>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Finding perfect tunes for your mood...</p>
             </div>
-            
-            <div class="music-player" id="musicPlayerSection">
-                <p class="now-playing">NOW PLAYING</p>
-                <div class="album-cover">
-                    <img id="albumCoverImg" src="placeholder.jpg" alt="Album Cover">
-                </div>
-                <p class="current-song" id="currentSongTitle">Song Title - Artist Name</p>
-                
-                <div class="player-controls">
-                    <button class="control-btn" onclick="prevSong()">
-                        <svg viewBox="0 0 24 24" stroke="white" fill="none">
-                            <polygon points="19 20 9 12 19 4 19 20"/>
-                            <line x1="5" y1="19" x2="5" y2="5"/>
-                        </svg>
-                    </button>
-                    <button class="control-btn play" id="playBtn" onclick="togglePlay()">
-                        <svg id="playIcon" viewBox="0 0 24 24" fill="white" stroke="none">
-                            <polygon points="5 3 19 12 5 21 5 3"/>
-                        </svg>
-                    </button>
-                    <button class="control-btn" onclick="nextSong()">
-                        <svg viewBox="0 0 24 24" stroke="white" fill="none">
-                            <polygon points="5 4 15 12 5 20 5 4"/>
-                            <line x1="19" y1="5" x2="19" y2="19"/>
-                        </svg>
-                    </button>
-                </div>
 
-                <div class="progress-bar" id="progressBar">
-                    <div class="progress" id="progress"></div>
-                </div>
-                <div class="time-display">
-                    <span id="currentTime">0:00</span>
-                    <span id="durationTime">0:00</span>
-                </div>
-            </div>
+            <div id="result"></div>
         </div>
     </div>
 
     <script>
-        // Use a placeholder for musicData since it wasn't fully provided
+        const particlesContainer = document.getElementById('particles');
+        const particles = [];
+        let lastTrailTime = 0;
+        
         const musicData = {
-            'Happy': {
-                quote: "The only thing that will make you happy is being happy with who you are.",
+            "Happy": {
                 songs: [
-                    { title: "Walking on Sunshine", artist: "Katrina & The Waves", albumCover: "https://picsum.photos/200/200?random=1" },
-                    { title: "Lovely Day", artist: "Bill Withers", albumCover: "https://picsum.photos/200/200?random=2" },
-                    { title: "I Feel Good", artist: "James Brown", albumCover: "https://picsum.photos/200/200?random=3" }
+                    "Blinding Lights - The Weeknd",
+                    "Shape of You - Ed Sheeran",
+                    "One Dance - Drake feat. Wizkid & Kyla",
+                    "Uptown Funk - Mark Ronson ft. Bruno Mars",
+                    "Despacito - Luis Fonsi ft. Daddy Yankee"
+                ],
+                quote: "Choose to be optimistic, it feels better. - Dalai Lama",
+                particleColor: "rgba(255, 217, 61, 0.8)",
+                covers: [
+                    "./Images/happy1.jpg",
+                    "./Images/happy2.jpg",
+                    "./Images/happy3.jpg",
+                    "./Images/happy4.jpg",
+                    "./Images/happy5.jpg"
+                ],
+                audioFiles: [
+                    "./Music/Happy/blinding-lights.mp3",
+                    "./Music/Happy/shape-of-you.mp3",
+                    "./Music/Happy/one-dance.mp3",
+                    "./Music/Happy/uptown-funk.mp3",
+                    "./Music/Happy/despacito.mp3"
                 ]
             },
-            'Sad': {
-                quote: "Tears come from the heart and not from the brain.",
-                songs: [
-                    { title: "Hurt", artist: "Johnny Cash", albumCover: "https://picsum.photos/200/200?random=4" },
-                    { title: "Yesterday", artist: "The Beatles", albumCover: "https://picsum.photos/200/200?random=5" },
-                    { title: "Fix You", artist: "Coldplay", albumCover: "https://picsum.photos/200/200?random=6" }
+            "Sad": {
+                songs: ["As It Was - Harry Styles", "Beanie - Chezile", "Nope Your Too Late I Already Died - Wifiskeleton & I Wanna Be a Jack-O-Lantern", "Let Down - Radiohead", "The Winner Takes It All - ABBA"],
+                quote: "Tears are words the heart can't express. - Unknown",
+                particleColor: "rgba(107, 207, 255, 0.8)",
+                covers: [
+                    "./Images/sad1.jpg",
+                    "./Images/sad2.jpg",
+                    "./Images/sad3.jpg",
+                    "./Images/sad4.jpg",
+                    "./Images/sad5.jpg"
+                ],
+                audioFiles: [
+                    "./Music/Sad/As It Was.mp3",
+                    "./Music/Sad/Beanie.mp3",
+                    "./Music/Sad/I already died.mp3",
+                    "./Music/Sad/Let Down.mp3",
+                    "./Music/Sad/The Winner Takes It All.mp3"
                 ]
             },
-            'Stress': {
-                quote: "It's not the load that breaks you down, it's the way you carry it.",
-                songs: [
-                    { title: "Weightless", artist: "Marconi Union", albumCover: "https://picsum.photos/200/200?random=7" },
-                    { title: "Watermark", artist: "Enya", albumCover: "https://picsum.photos/200/200?random=8" },
+            "Stress": {
+                songs: ["Anxiety - Doechii", "under the influence - Chris Brown", "Another Love - Tom Odell", "Everything I Wanted - Billie Eilish", "Heat Waves - Glass Animals"],
+                quote: "Sometimes the most productive thing you can do is relax. - Mark Black",
+                particleColor: "rgba(255, 107, 157, 0.8)",
+                covers: [
+                    "./Images/stress1.jpg",
+                    "./Images/stress2.jpg",
+                    "./Images/stress3.jpg",
+                    "./Images/stress4.jpg",
+                    "./Images/stress5.jpg"
+                ],
+                audioFiles: [
+                    "./Music/Stress/anxiety.mp3",
+                    "./Music/Stress/under-the-influence.mp3",
+                    "./Music/Stress/another-love.mp3",
+                    "./Music/Stress/everything-i-wanted.mp3",
+                    "./Music/Stress/heat-waves.mp3"
                 ]
             },
-            'Sleepy': {
-                quote: "Sleep is the best meditation.",
-                songs: [
-                    { title: "Clair de Lune", artist: "Claude Debussy", albumCover: "https://picsum.photos/200/200?random=9" },
-                    { title: "Reverie", artist: "Claude Debussy", albumCover: "https://picsum.photos/200/200?random=10" },
+            "Sleepy": {
+                songs: ["Night Changes - One Direction", "I Love You - Billie Eilish", "Je te laisserai des mots - Patrick Watson", "The Night We Met - Lord Huron", "Falling - Harry Styles"],
+                quote: "Sleep is the best meditation. - Dalai Lama",
+                particleColor: "rgba(162, 155, 254, 0.8)",
+                covers: [
+                    "./Images/sleepy1.jpg",
+                    "./Images/sleepy2.jpg",
+                    "./Images/sleepy3.jpg",
+                    "./Images/sleepy4.jpg",
+                    "./Images/sleepy5.jpg"
+                ],
+                audioFiles: [
+                    "./Music/Sleepy/night-changes.mp3",
+                    "./Music/Sleepy/i-love-you.mp3",
+                    "./Music/Sleepy/Je-te-laisserai-des-mots.mp3",
+                    "./Music/Sleepy/The-Night-We-Met.mp3",
+                    "./Music/Sleepy/falling.mp3"
                 ]
             },
-            'Study': {
-                quote: "The mind is not a vessel to be filled, but a fire to be kindled.",
-                songs: [
-                    { title: "The Sound of Silence (Instrumental)", artist: "Simon & Garfunkel", albumCover: "https://picsum.photos/200/200?random=11" },
-                    { title: "Experience", artist: "Ludovico Einaudi", albumCover: "https://picsum.photos/200/200?random=12" },
+            "Study": {
+                songs: ["Weightless - Marconi Union", "Cold Little Heart (Instrumental) - Michael Kiwanuka", "Far away - Lofi Girl", "Experience (Instrumental) - Ludovico Einaudi", "Lost in thougts all Alone - Lofi Girl"],
+                quote: "The expert in anything was once a beginner. - Helen Hayes",
+                particleColor: "rgba(85, 239, 196, 0.8)",
+                covers: [
+                    "./Images/study1.jpg",
+                    "./Images/study2.jpg",
+                    "./Images/study3.jpg",
+                    "./Images/study4.jpg",
+                    "./Images/study5.jpg"
+                ],
+                audioFiles: [
+                    "./Music/Study/Weightless.mp3",
+                    "./Music/Study/Cold Little Heart.mp3",
+                    "./Music/Study/Far Away.mp3",
+                    "./Music/Study/Experience.mp3",
+                    "./Music/Study/lost in thoughts all alone.mp3"
                 ]
             },
-            'Energy': {
-                quote: "The future belongs to those who believe in the beauty of their dreams.",
-                songs: [
-                    { title: "Thunderstruck", artist: "AC/DC", albumCover: "https://picsum.photos/200/200?random=13" },
-                    { title: "Mr. Brightside", artist: "The Killers", albumCover: "https://picsum.photos/200/200?random=14" },
+            "Energy": {
+                songs: ["Manchild - Sabrina Carpenter", "I Don’t Wanna Wait - David Guetta & OneRepublic", "Bliss - Tyla", "Shake It to the Max (FLY) - Moliy feat. Skillibeng & Shenseea", "Your Idol - SAJA BOYS"],
+                quote: "Energy and persistence conquer all things. - Benjamin Franklin",
+                particleColor: "rgba(255, 118, 117, 0.8)",
+                covers: [
+                    "./Images/energy1.jpg",
+                    "./Images/energy2.jpg",
+                    "./Images/energy3.jpg",
+                    "./Images/energy4.jpg",
+                    "./Images/energy5.jpg"
+                ],
+                audioFiles: [
+                    "./Music/Energy/Manchild.mp3",
+                    "./Music/Energy/I Dont Wanna Wait.mp3",
+                    "./Music/Energy/BLISS.mp3",
+                    "./Music/Energy/Shake It to the Max.mp3",
+                    "./Music/Energy/Your Idol.mp3"
                 ]
             }
         };
-
-        let currentMood = null;
-        let currentSongIndex = 0;
-        let currentAudio = null;
-        let isPlaying = false;
-
-        // NEW: Check for mobile device once for performance checks
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
         
-        // NEW: Utility function for preloading image in the background
-        function preloadImage(url) {
-            if (url && isMobile) {
-                const img = new Image();
-                img.src = url;
+        // Detect mobile device (same breakpoint as CSS media query)
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+        // Only initialize heavy effects on desktop
+        if (!isMobile) {
+            // Particle generator (desktop only)
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particlesContainer.appendChild(particle);
+                particles.push(particle);
             }
+
+            // Cursor trail (desktop only)
+            document.addEventListener('mousemove', (e) => {
+                const currentTime = Date.now();
+                if (currentTime - lastTrailTime > 30) {
+                    const trail = document.createElement('div');
+                    trail.className = 'cursor-trail';
+                    trail.style.left = e.clientX + 'px';
+                    trail.style.top = e.clientY + 'px';
+                    document.body.appendChild(trail);
+                    lastTrailTime = currentTime;
+
+                    setTimeout(() => trail.remove(), 1000);
+                }
+            });
+
+            // Ripple effect on click (desktop only)
+            document.addEventListener('click', (e) => {
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                ripple.style.left = e.clientX + 'px';
+                ripple.style.top = e.clientY + 'px';
+                document.body.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 1000);
+            });
         }
+
+
+        let currentSongIndex = 0;
+        let currentMood = '';
+        let isPlaying = false;
+        let currentAudio = null;
 
         function selectMood(mood) {
             currentMood = mood;
-            currentSongIndex = 0;
-            const data = musicData[mood];
-
-            // Update Header Styles
-            document.querySelector('.bg-gradient').className = `bg-gradient ${mood.toLowerCase()}`;
-            document.querySelector('h1').className = mood.toLowerCase();
-            document.querySelector('.subtitle').className = `subtitle ${mood.toLowerCase()}`;
-
-            // Update Result Content
-            document.getElementById('moodTitle').textContent = mood;
-            document.getElementById('quoteText').textContent = data.quote;
-
-            const songListContainer = document.getElementById('songList');
-            songListContainer.innerHTML = '';
-            data.songs.forEach((song, index) => {
-                const li = document.createElement('li');
-                li.className = `song-item ${mood.toLowerCase()}`;
-                li.textContent = `${index + 1}. ${song.title} - ${song.artist}`;
-                li.onclick = () => playSong(index);
-                songListContainer.appendChild(li);
-            });
-
-            // Show results section
-            document.getElementById('result').classList.add('show');
-            document.getElementById('musicPlayerSection').classList.remove('show');
-
-            // Scroll to results (optional, but good for mobile UX)
-            setTimeout(() => {
-                document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-            }, isMobile ? 50 : 300); // Faster scroll on mobile
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const bgGradient = document.querySelector('.bg-gradient');
+            const title = document.querySelector('h1');
+            const subtitle = document.querySelector('.subtitle');
             
-            // Start playing the first song and pre-load the next cover
-            playSong(0); 
+            // Optimization for mobile: Skip particle/orb animations
+            if (!isMobile) {
+                const data = musicData[mood];
+                const orbs = document.querySelectorAll('.orb');
+                
+                particles.forEach(particle => {
+                    particle.style.background = data.particleColor;
+                    particle.style.boxShadow = `0 0 10px ${data.particleColor}`;
+                });
+                
+                orbs.forEach((orb, index) => {
+                    setTimeout(() => {
+                        orb.style.transform = 'scale(1.5)';
+                        setTimeout(() => {
+                            orb.style.transform = 'scale(1)';
+                        }, 500);
+                    }, index * 200);
+                });
+            }
+
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                isPlaying = false;
+            }
+            
+            // Smooth background and title changes
+            setTimeout(() => {
+                bgGradient.className = 'bg-gradient ' + mood.toLowerCase();
+            }, isMobile ? 0 : 300);
+            
+            setTimeout(() => {
+                title.className = mood.toLowerCase();
+                subtitle.className = 'subtitle ' + mood.toLowerCase();
+            }, isMobile ? 0 : 600);
+            
+            result.classList.remove('show');
+            loading.classList.add('active');
+
+            // Reduce loading delay on mobile for faster response
+            const loadingTime = isMobile ? 1000 : 2000;
+
+            setTimeout(() => {
+                loading.classList.remove('active');
+                displayResults(mood);
+            }, loadingTime);
+        }
+
+        function displayResults(mood) {
+            const data = musicData[mood];
+            const result = document.getElementById('result');
+            currentSongIndex = 0;
+            const moodClass = mood.toLowerCase();
+            
+            result.innerHTML = `
+                <div class="result-content">
+                    <h3 class="mood-title ${moodClass}">Your Mood: ${mood}</h3>
+                    <div class="quote">"${data.quote}"</div>
+                    <h4 class="songs-title">🎵 Recommended Songs</h4>
+                    <ul class="song-list">
+                        ${data.songs.map((song, index) => 
+                            `<li class="song-item ${moodClass}" onclick="playSong(${index})">${song}</li>`
+                        ).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            // Create music player section separately (hidden initially)
+            let playerSection = document.getElementById('musicPlayerSection');
+            if (!playerSection) {
+                playerSection = document.createElement('div');
+                playerSection.id = 'musicPlayerSection';
+                result.appendChild(playerSection);
+            }
+            
+            playerSection.innerHTML = `
+                <div class="music-player">
+                    <div class="album-cover" id="albumCover">
+                        <img src="${data.covers[0]}" alt="Album Cover">
+                    </div>
+                    <div class="now-playing">NOW PLAYING</div>
+                    <div class="current-song" id="currentSong">${data.songs[0]}</div>
+                    <div class="player-controls">
+                        <button class="control-btn" onclick="prevSong()">
+                            <svg viewBox="0 0 24 24">
+                                <polygon points="19 20 9 12 19 4 19 20"/>
+                                <line x1="5" y1="19" x2="5" y2="5"/>
+                            </svg>
+                        </button>
+                        <button class="control-btn play ${moodClass}" onclick="togglePlay()" id="playBtn">
+                            <svg viewBox="0 0 24 24" id="playIcon">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                        </button>
+                        <button class="control-btn" onclick="nextSong()">
+                            <svg viewBox="0 0 24 24">
+                                <polygon points="5 4 15 12 5 20 5 4"/>
+                                <line x1="19" y1="5" x2="19" y2="19"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="progress-bar" onclick="seekAudio(event)">
+                        <div class="progress ${moodClass}" id="progress"></div>
+                    </div>
+                    <div class="time-display">
+                        <span id="currentTime">0:00</span>
+                        <span id="duration">0:00</span>
+                    </div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                result.classList.add('show');
+            }, 100);
         }
 
         function playSong(index) {
             currentSongIndex = index;
             const data = musicData[currentMood];
-            const song = data.songs[index];
-
-            // UPDATED: Preload the NEXT song's image for smooth transition
-            const nextSongIndex = (currentSongIndex + 1) % data.songs.length;
-            const nextCoverUrl = data.songs[nextSongIndex].albumCover;
-            preloadImage(nextCoverUrl);
-
-            // Update Player UI
-            document.getElementById('currentSongTitle').textContent = song.title;
-            document.getElementById('albumCoverImg').src = song.albumCover;
-
-            const playerClasses = ['happy', 'sad', 'stress', 'sleepy', 'study', 'energy'];
-            const player = document.getElementById('musicPlayerSection');
-            const playBtn = document.getElementById('playBtn');
-            const progress = document.getElementById('progress');
+            const songElement = document.getElementById('currentSong');
+            const albumCover = document.getElementById('albumCover');
+            const coverImg = albumCover.querySelector('img');
+            const playerSection = document.getElementById('musicPlayerSection');
             
-            player.classList.remove(...playerClasses);
-            playBtn.classList.remove(...playerClasses);
-            progress.classList.remove(...playerClasses);
-            
-            const moodClass = currentMood.toLowerCase();
-            player.classList.add(moodClass);
-            playBtn.classList.add(moodClass);
-            progress.classList.add(moodClass);
-
-
-            // Mock Audio Logic (replace with actual audio implementation)
-            if (currentAudio) {
-                // Remove mock listener to prevent memory leak and double-fire
-                currentAudio.removeEventListener('timeupdate', updateProgressBar);
-                currentAudio.removeEventListener('loadedmetadata', updateTimeDisplay);
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
+            // Show player section when first song is clicked
+            if (!playerSection.classList.contains('show')) {
+                playerSection.classList.add('show');
+                setTimeout(() => {
+                    playerSection.style.opacity = '1';
+                    playerSection.style.transform = 'translateY(0)';
+                }, 100);
             }
             
-            // MOCKING the audio object for this example
-            currentAudio = {
-                play: () => { /* Actual Play Logic */ },
-                pause: () => { /* Actual Pause Logic */ },
-                duration: 180, // Mock duration in seconds
-                currentTime: 0,
-                // Add an event listener mock to update the progress bar for the demo
-                timeUpdateInterval: null,
-                addEventListener: (event, callback) => {
-                    if (event === 'timeupdate') {
-                        // Clear existing interval to ensure only one runs
-                        if (currentAudio.timeUpdateInterval) clearInterval(currentAudio.timeUpdateInterval);
-                        
-                        // Mock time update
-                        currentAudio.timeUpdateInterval = setInterval(() => {
-                            if (currentAudio.currentTime < currentAudio.duration) {
-                                currentAudio.currentTime += 1;
-                                callback();
-                            } else {
-                                clearInterval(currentAudio.timeUpdateInterval);
-                                nextSong(); // Play next when mock ends
-                            }
-                        }, 1000);
-                    }
-                    if (event === 'loadedmetadata') {
-                        callback();
-                    }
-                },
-                removeEventListener: (event, callback) => {
-                    if (event === 'timeupdate' && currentAudio.timeUpdateInterval) {
-                        clearInterval(currentAudio.timeUpdateInterval);
-                        currentAudio.timeUpdateInterval = null;
-                    }
-                }
-            };
+            // Animation for song change
+            songElement.style.transform = 'scale(0.9)';
+            songElement.style.opacity = '0.5';
+            albumCover.style.opacity = '0.5';
             
-            currentAudio.addEventListener('loadedmetadata', updateTimeDisplay);
-            currentAudio.addEventListener('timeupdate', updateProgressBar);
+            setTimeout(() => {
+                songElement.textContent = data.songs[index];
+                // Remove transform on mobile for smooth experience
+                songElement.style.transform = isMobile ? 'none' : 'scale(1)'; 
+                songElement.style.opacity = '1';
+                
+                coverImg.src = data.covers[index];
+                albumCover.style.opacity = '1';
+            }, 200);
             
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.removeEventListener('timeupdate', updateProgress);
+                currentAudio.removeEventListener('loadedmetadata', updateDuration);
+            }
             
-            // Show player section and play the song
-            document.getElementById('musicPlayerSection').classList.add('show');
+            // Create new audio element
+            currentAudio = new Audio(data.audioFiles[index]);
+            
+            // Update progress bar and time
+            currentAudio.addEventListener('timeupdate', updateProgress);
+            currentAudio.addEventListener('loadedmetadata', updateDuration);
+            
+            // Auto play next song when current ends
+            currentAudio.addEventListener('ended', () => {
+                nextSong();
+            });
+            
+            // Play the audio
+            currentAudio.play().catch(error => {
+                console.log('Audio playback failed:', error);
+            });
+            
             isPlaying = true;
-            togglePlay(true); // Ensure play icon is set and song starts
+            const playBtn = document.getElementById('playIcon');
+            playBtn.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+            playBtn.setAttribute('fill', 'white');
+            playBtn.setAttribute('stroke', 'none');
         }
 
-        const formatTime = (time) => {
-            const minutes = Math.floor(time / 60);
-            const seconds = Math.floor(time % 60).toString().padStart(2, '0');
-            return `${minutes}:${seconds}`;
-        };
-
-        function updateTimeDisplay() {
-            const duration = currentAudio.duration || 0; 
-            document.getElementById('durationTime').textContent = formatTime(duration);
-            document.getElementById('currentTime').textContent = formatTime(currentAudio.currentTime);
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
 
-        function updateProgressBar() {
-            const progress = document.getElementById('progress');
-            const currentTimeEl = document.getElementById('currentTime');
+        function updateProgress() {
+            if (currentAudio) {
+                const progressBar = document.getElementById('progress');
+                const currentTimeElement = document.getElementById('currentTime');
+                const percentage = (currentAudio.currentTime / currentAudio.duration) * 100;
+                progressBar.style.width = percentage + '%';
+                currentTimeElement.textContent = formatTime(currentAudio.currentTime);
+            }
+        }
 
-            const duration = currentAudio.duration || 1; 
-            const currentTime = currentAudio.currentTime;
-            const progressPercent = (currentTime / duration) * 100;
+        function updateDuration() {
+            if (currentAudio) {
+                const durationElement = document.getElementById('duration');
+                durationElement.textContent = formatTime(currentAudio.duration);
+            }
+        }
+
+        function seekAudio(event) {
+            if (!currentAudio) return;
             
-            progress.style.width = `${progressPercent}%`;
-            currentTimeEl.textContent = formatTime(currentTime);
+            const progressBar = event.currentTarget;
+            const rect = progressBar.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const percentage = clickX / rect.width;
+            const newTime = percentage * currentAudio.duration;
+            
+            currentAudio.currentTime = newTime;
         }
 
-        function togglePlay(forcePlay = false) {
+        function togglePlay() {
             if (!currentAudio) {
-                // If there's no song loaded, load the first song
+                // If no audio is loaded, play the first song
                 playSong(0);
                 return;
             }
             
-            isPlaying = forcePlay ? true : !isPlaying;
+            isPlaying = !isPlaying;
             const playBtn = document.getElementById('playIcon');
             const btn = document.getElementById('playBtn');
             
-            // FIX: Removed button press animation on mobile
+            // Remove animation/transform on mobile
             if (!isMobile) {
                 btn.style.transform = 'scale(0.9)';
                 setTimeout(() => {
