@@ -1042,6 +1042,62 @@
                 opacity: 0;
             }
         }
+        /* Reduce animations on mobile for speed */
+@media (max-width: 768px) {
+
+/* Remove heavy background animations */
+.bg-gradient {
+    animation: gradientShift 40s ease infinite;
+}
+
+/* Disable floating particles */
+.particle {
+    display: none !important;
+}
+
+/* Disable orbs animation */
+.orb {
+    animation: none !important;
+    opacity: 0.2;
+}
+
+/* Stop cursor trails (mobile doesn't need it) */
+.cursor-trail {
+    display: none !important;
+}
+
+/* Reduce button float animation */
+.mood-btn {
+    animation: none !important;
+    transform: none !important;
+}
+
+/* Reduce title & subtitle animations */
+h1, .subtitle {
+    animation: none !important;
+}
+
+/* Reduce quote glow */
+.quote {
+    animation: none !important;
+}
+
+/* Reduce music player floating */
+.music-player {
+    animation: none !important;
+}
+
+/* Reduce glow/pulse on icons */
+.mood-icon svg {
+    animation: none !important;
+}
+
+/* Disable ripple effect */
+.ripple {
+    display: none !important;
+}
+}
+
     </style>
 </head>
 <body>
